@@ -6,18 +6,27 @@ use App\Http\Controllers\Auth\Logout;
 use App\Http\Controllers\ChirpController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [ChirpController::class, 'index']);
+Route::view('/', 'home')
+    ->middleware('guest')
+    ->name('home');
 
-// Protected routes
-Route::middleware('auth')->group(function () {
-    Route::post('/chirps', [ChirpController::class, 'store']);
-    Route::get('/chirps/{chirp}/edit', [ChirpController::class, 'edit']);
-    Route::put('/chirps/{chirp}', [ChirpController::class, 'update']);
-    Route::delete('/chirps/{chirp}', [ChirpController::class, 'destroy']);
-    Route::get('/chirps/create', [ChirpController::class, 'create']);
-    Route::get('/chirps/{chirp}', [ChirpController::class, 'show']);
+Route::middleware('auth')->group(function() {
+
+    Route::get('/dashboard', [ChirpController::class, 'index'])->name('dashboard');
+
+    Route::resource('chirps', ChirpController::class)
+        ->except(['index']);
 });
 
+// Protected routes
+// Route::middleware('auth')->group(function() {
+//     Route::post('/chirps', [ChirpController::class, 'store']);
+//     Route::get('/chirps/{chirp}/edit', [ChirpController::class, 'edit']);
+//     Route::put('/chirps/{chirp}', [ChirpController::class, 'update']);
+//     Route::delete('/chirps/{chirp}', [ChirpController::class, 'destroy']);
+//     Route::get('/chirps/create', [ChirpController::class, 'create']);
+//     Route::get('/chirps/{chirp}', [ChirpController::class, 'show']);
+// });
 
 // Route::resource('chirps', ChirpController::class)
 //     ->only(['store', 'edit', 'update', 'destroy']);

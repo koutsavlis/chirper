@@ -32,9 +32,6 @@
         </div>
 
         <div class="space-y-4 mt-8">
-            @forelse ($chirps as $chirp)
-            <x-chirp :chirp="$chirp" />
-            @empty
             <div class="hero py-12">
                 <div class="hero-content text-center">
                     <div>
@@ -47,7 +44,7 @@
                     </div>
                 </div>
             </div>
-            @endforelse
+
         </div>
     </div>
 </x-layout>

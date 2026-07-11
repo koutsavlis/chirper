@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreChirpRequest;
+use App\Http\Requests\UpdateChirpRequest;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 use App\Models\Chirp;
@@ -15,12 +18,13 @@ class ChirpController extends Controller
      */
     public function index()
     {
-        $chirps = Chirp::with('user')
+        $chirps = auth()->user()
+            ->chirps()
             ->latest()
             ->take(50)
             ->get();
 
-        return view('home', ['chirps' => $chirps]);
+        return view('chirps.index', ['chirps' => $chirps]);
     }
 
     /**
@@ -34,15 +38,17 @@ class ChirpController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreChirpRequest $request)
     {
         // Validate the request
-        $validated = $request->validate([
-            'message' => 'required|string|max:255',
-        ], [
-            'message.required' => 'Please write something to chirp!',
-            'message.max' => 'Chirps must be 255 characters or less.',
-        ]);
+        // $validated = $request->validate([
+        //     'message' => 'required|string|max:255',
+        // ], [
+        //     'message.required' => 'Please write something to chirp!',
+        //     'message.max' => 'Chirps must be 255 characters or less.',
+        // ]);
+
+        $validated = $request->validated();
 
         // Use the authenticated user
         auth()->user()->chirps()->create($validated);
@@ -75,18 +81,20 @@ class ChirpController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Chirp $chirp)
+    public function update(UpdateChirpRequest $request, Chirp $chirp)
     {
         $this->authorize('update', $chirp);
 
 
         // Validate
-        $validated = $request->validate([
-            'message' => 'required|string|max:255',
-        ], [
-            'message.required' => 'Please write something to chirp!',
-            'message.max' => 'Chirps must be 255 characters or less.',
-        ]);
+        // $validated = $request->validate([
+        //     'message' => 'required|string|max:255',
+        // ], [
+        //     'message.required' => 'Please write something to chirp!',
+        //     'message.max' => 'Chirps must be 255 characters or less.',
+        // ]);
+
+        $validated = $request->validated();
 
         // Update
         $chirp->update($validated);
