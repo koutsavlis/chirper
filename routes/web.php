@@ -1,53 +1,27 @@
 <?php
 
-use App\Http\Controllers\Auth\Register;
 use App\Http\Controllers\Auth\Login;
 use App\Http\Controllers\Auth\Logout;
+use App\Http\Controllers\Auth\Register;
 use App\Http\Controllers\ChirpController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'home')
-    ->middleware('guest')
-    ->name('home');
+// Guest routes
+Route::middleware('guest')->group(function () {
+    Route::view('/', 'home')->name('home');
 
-Route::middleware('auth')->group(function() {
+    Route::view('/register', 'auth.register')->name('register');
+    Route::post('/register', Register::class);
 
-    Route::get('/dashboard', [ChirpController::class, 'index'])->name('dashboard');
-
-    Route::resource('chirps', ChirpController::class)
-        ->except(['index']);
+    Route::view('/login', 'auth.login')->name('login');
+    Route::post('/login', Login::class);
 });
 
-// Protected routes
-// Route::middleware('auth')->group(function() {
-//     Route::post('/chirps', [ChirpController::class, 'store']);
-//     Route::get('/chirps/{chirp}/edit', [ChirpController::class, 'edit']);
-//     Route::put('/chirps/{chirp}', [ChirpController::class, 'update']);
-//     Route::delete('/chirps/{chirp}', [ChirpController::class, 'destroy']);
-//     Route::get('/chirps/create', [ChirpController::class, 'create']);
-//     Route::get('/chirps/{chirp}', [ChirpController::class, 'show']);
-// });
+// Authenticated routes
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [ChirpController::class, 'index'])->name('dashboard');
 
-// Route::resource('chirps', ChirpController::class)
-//     ->only(['store', 'edit', 'update', 'destroy']);
+    Route::resource('chirps', ChirpController::class)->except(['index']);
 
-// Registration routes
-Route::view('/register', 'auth.register')
-    ->middleware('guest')
-    ->name('register');
-
-Route::post('/register', Register::class)
-    ->middleware('guest');
-
-// Login routes
-Route::view('/login', 'auth.login')
-    ->middleware('guest')
-    ->name('login');
-
-Route::post('/login', Login::class)
-    ->middleware('guest');
-
-// Logout route
-Route::post('logout', Logout::class)
-    ->middleware('auth')
-    ->name('logout');
+    Route::post('/logout', Logout::class)->name('logout');
+});

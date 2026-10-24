@@ -4,17 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreChirpRequest;
 use App\Http\Requests\UpdateChirpRequest;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-
 use App\Models\Chirp;
-use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ChirpController extends Controller
 {
     use AuthorizesRequests;
-    
+
     /**
-     * Display a listing of the resource.
+     * Display the authenticated user's chirps.
      */
     public function index()
     {
@@ -28,7 +26,7 @@ class ChirpController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new chirp.
      */
     public function create()
     {
@@ -36,29 +34,17 @@ class ChirpController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created chirp.
      */
     public function store(StoreChirpRequest $request)
     {
-        // Validate the request
-        // $validated = $request->validate([
-        //     'message' => 'required|string|max:255',
-        // ], [
-        //     'message.required' => 'Please write something to chirp!',
-        //     'message.max' => 'Chirps must be 255 characters or less.',
-        // ]);
+        auth()->user()->chirps()->create($request->validated());
 
-        $validated = $request->validated();
-
-        // Use the authenticated user
-        auth()->user()->chirps()->create($validated);
-
-        // Redirect back to the feed
-        return redirect('/')->with('success', 'Chirp created successfully!');
+        return redirect()->route('dashboard')->with('success', 'Chirp created successfully!');
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified chirp.
      */
     public function show(Chirp $chirp)
     {
@@ -68,50 +54,36 @@ class ChirpController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified chirp.
      */
     public function edit(Chirp $chirp)
     {
         $this->authorize('update', $chirp);
 
-        // return view('chirps.edit', ['chirp' => $chirp]);
         return view('chirps.edit', compact('chirp'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified chirp.
      */
     public function update(UpdateChirpRequest $request, Chirp $chirp)
     {
         $this->authorize('update', $chirp);
 
+        $chirp->update($request->validated());
 
-        // Validate
-        // $validated = $request->validate([
-        //     'message' => 'required|string|max:255',
-        // ], [
-        //     'message.required' => 'Please write something to chirp!',
-        //     'message.max' => 'Chirps must be 255 characters or less.',
-        // ]);
-
-        $validated = $request->validated();
-
-        // Update
-        $chirp->update($validated);
-
-        // Redirect back to the feed
-        return redirect('/')->with('success', 'Chirp updated successfully!');
+        return redirect()->route('dashboard')->with('success', 'Chirp updated successfully!');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified chirp.
      */
     public function destroy(Chirp $chirp)
     {
         $this->authorize('delete', $chirp);
-        
+
         $chirp->delete();
 
-        return redirect('/')->with('success', 'Chirp deleted successfully!');
+        return redirect()->route('dashboard')->with('success', 'Chirp deleted successfully!');
     }
 }
