@@ -66,6 +66,11 @@ test('the feed does not expose user emails', function () {
         ->assertDontSee('secret.person');
 });
 
+test('the home page redirects to the feed', function () {
+    $this->get('/')
+        ->assertRedirect(route('chirps.index'));
+});
+
 // Create
 
 test('a user can create a chirp', function () {

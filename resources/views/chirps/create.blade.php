@@ -48,7 +48,7 @@
                         </div>
 
                         <div class="card-actions justify-between mt-4">
-                            <a href="/" class="btn btn-ghost btn-sm">
+                            <a href="{{ route('dashboard') }}" class="btn btn-ghost btn-sm">
                                 Cancel
                             </a>
                             <button type="submit" class="btn btn-primary btn-sm">

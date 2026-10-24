@@ -9,6 +9,7 @@ use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
+Route::redirect('/', '/chirps')->name('home');
 Route::get('/chirps', [ChirpController::class, 'index'])->name('chirps.index');
 Route::get('/chirps/{chirp}', [ChirpController::class, 'show'])
     ->whereNumber('chirp')
@@ -17,8 +18,6 @@ Route::get('/users/{user}', UserProfileController::class)->name('users.show');
 
 // Guest routes
 Route::middleware('guest')->group(function () {
-    Route::view('/', 'home')->name('home');
-
     Route::view('/register', 'auth.register')->name('register');
     Route::post('/register', Register::class);
 
