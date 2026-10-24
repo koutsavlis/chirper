@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
@@ -34,5 +35,15 @@ class User extends Authenticatable
     public function chirps(): HasMany
     {
         return $this->hasMany(Chirp::class);
+    }
+
+    /**
+     * Public avatar URL. Uses a hash so the email is never exposed in HTML.
+     */
+    protected function avatarUrl(): Attribute
+    {
+        return Attribute::get(
+            fn() => 'https://avatars.laravel.cloud/' . md5(strtolower($this->email))
+        );
     }
 }
