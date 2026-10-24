@@ -6,6 +6,8 @@ A small micro-blogging app built with Laravel 13. Users can sign up, post short 
 
 The project started from the official [Laravel Learn bootcamp](https://laravel.com/learn/getting-started-with-laravel). I then extended it with my own features, fixed bugs and added a full test suite and CI.
 
+![Public feed](docs/screenshots/feed.png)
+
 ## What I added beyond the tutorial
 
 - **Private dashboard** for each user, separate from the public feed
@@ -19,6 +21,16 @@ The project started from the official [Laravel Learn bootcamp](https://laravel.c
 - **Privacy fix**: avatar URLs use a hash instead of the user's email, so emails never appear in public HTML
 - **Bug fix**: actions redirected to a guest-only page, which caused a double redirect and lost the success message
 - **Refactoring**: one shared `ChirpRequest`, invokable controllers for single actions, routes grouped by middleware, named routes everywhere, a custom daisyUI theme
+
+## Screenshots
+
+**Dashboard**: the signed-in user's own chirps, with create, edit and delete
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+**Sign in**, with the custom daisyUI theme
+
+![Sign in](docs/screenshots/login.png)
 
 ## Tech stack
 
