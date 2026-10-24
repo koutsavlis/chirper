@@ -17,6 +17,7 @@ class ChirpController extends Controller
     {
         $chirps = auth()->user()
             ->chirps()
+            ->with('user')
             ->latest()
             ->take(50)
             ->get();

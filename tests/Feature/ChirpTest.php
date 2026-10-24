@@ -17,6 +17,15 @@ test('the dashboard shows only the user\'s own chirps', function () {
         ->assertDontSee('A stranger chirp');
 });
 
+test('the dashboard loads chirps without N+1 queries', function () {
+    $user = User::factory()->create();
+    Chirp::factory()->count(3)->for($user)->create();
+
+    $this->actingAs($user)
+        ->get(route('dashboard'))
+        ->assertOk();
+});
+
 // Create
 
 test('a user can create a chirp', function () {
