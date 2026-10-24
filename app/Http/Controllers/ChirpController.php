@@ -11,21 +11,6 @@ class ChirpController extends Controller
     use AuthorizesRequests;
 
     /**
-     * Display the authenticated user's chirps.
-     */
-    public function index()
-    {
-        $chirps = auth()->user()
-            ->chirps()
-            ->with('user')
-            ->latest()
-            ->take(50)
-            ->get();
-
-        return view('chirps.index', ['chirps' => $chirps]);
-    }
-
-    /**
      * Show the form for creating a new chirp.
      */
     public function create()

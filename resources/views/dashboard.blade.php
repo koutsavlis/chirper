@@ -1,10 +1,10 @@
 <x-layout>
     <x-slot:title>
-        Home Feed
+        Dashboard
     </x-slot:title>
 
     <div class="max-w-2xl mx-auto">
-        <h1 class="text-3xl font-bold mt-8">Latest Chirps</h1>
+        <h1 class="text-3xl font-bold mt-8">My Chirps</h1>
 
         <!-- Chirp Form -->
         <div class="card bg-base-100 shadow mt-8">
