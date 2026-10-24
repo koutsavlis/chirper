@@ -57,6 +57,15 @@ test('the feed is paginated', function () {
         ->assertViewHas('chirps', fn ($chirps) => $chirps->count() === 5);
 });
 
+test('the feed does not expose user emails', function () {
+    $user = User::factory()->create(['email' => 'secret.person@example.com']);
+    Chirp::factory()->for($user)->create();
+
+    $this->get(route('chirps.index'))
+        ->assertOk()
+        ->assertDontSee('secret.person');
+});
+
 // Create
 
 test('a user can create a chirp', function () {

@@ -7,12 +7,17 @@
         <h1 class="text-3xl font-bold mt-8">{{ $chirp->title }}</h1>
 
         <div class="flex items-center gap-1">
-            <span class="text-sm font-semibold">{{ $chirp->user ? $chirp->user->name : 'Anonymous' }}</span>
+            {{-- <span class="text-sm font-semibold">{{ $chirp->user ? $chirp->user->name : 'Anonymous' }}</span> --}}
+            @if ($chirp->user)
+            <a href="{{ route('users.show', $chirp->user) }}" class="text-sm font-semibold">{{ $chirp->user->name }}</a>
+            @else
+            <span class="text-sm font-semibold">Anonymous</span>
+            @endif
             <span class="text-base-content/60">·</span>
             <span class="text-sm text-base-content/60">{{ $chirp->created_at->diffForHumans() }}</span>
             @if ($chirp->updated_at->gt($chirp->created_at->addSeconds(5)))
-                <span class="text-base-content/60">·</span>
-                <span class="text-sm text-base-content/60 italic">edited</span>
+            <span class="text-base-content/60">·</span>
+            <span class="text-sm text-base-content/60 italic">edited</span>
             @endif
         </div>
 
@@ -28,9 +33,9 @@
                     </a>
 
                     @can('update', $chirp)
-                        <a href="{{ route('chirps.edit', $chirp) }}" class="btn btn-primary btn-sm">
-                            Edit Chirp
-                        </a>
+                    <a href="{{ route('chirps.edit', $chirp) }}" class="btn btn-primary btn-sm">
+                        Edit Chirp
+                    </a>
                     @endcan
                 </div>
             </div>
