@@ -11,7 +11,6 @@
             <div class="card-body">
                 <form method="POST" action="/chirps">
                     @csrf
-                    <div class="form-control w-full">
 
                         <div class="form-control w-full">
                             <label class="label" for="title">
