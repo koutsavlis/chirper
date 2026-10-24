@@ -7,6 +7,9 @@ use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
+// Public routes
+Route::get('/chirps', [ChirpController::class, 'index'])->name('chirps.index');
+
 // Guest routes
 Route::middleware('guest')->group(function () {
     Route::view('/', 'home')->name('home');

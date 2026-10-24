@@ -26,6 +26,37 @@ test('the dashboard loads chirps without N+1 queries', function () {
         ->assertOk();
 });
 
+// Feed
+
+test('guests can see the public feed', function () {
+    Chirp::factory()->create(['title' => 'First author chirp']);
+    Chirp::factory()->create(['title' => 'Second author chirp']);
+
+    $this->get(route('chirps.index'))
+        ->assertOk()
+        ->assertSee('First author chirp')
+        ->assertSee('Second author chirp');
+});
+
+test('the feed shows the newest chirps first', function () {
+    Chirp::factory()->create(['title' => 'Older chirp', 'created_at' => now()->subDay()]);
+    Chirp::factory()->create(['title' => 'Newer chirp']);
+
+    $this->get(route('chirps.index'))
+        ->assertSeeInOrder(['Newer chirp', 'Older chirp']);
+});
+
+test('the feed is paginated', function () {
+    Chirp::factory()->count(25)->create();
+
+    $this->get(route('chirps.index'))
+        ->assertOk()
+        ->assertViewHas('chirps', fn ($chirps) => $chirps->count() === 20);
+
+    $this->get(route('chirps.index', ['page' => 2]))
+        ->assertViewHas('chirps', fn ($chirps) => $chirps->count() === 5);
+});
+
 // Create
 
 test('a user can create a chirp', function () {

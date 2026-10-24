@@ -11,6 +11,19 @@ class ChirpController extends Controller
     use AuthorizesRequests;
 
     /**
+     * Display the public feed of all chirps.
+     */
+    public function index()
+    {
+        $chirps = Chirp::query()
+            ->with('user')
+            ->latest()
+            ->paginate(20);
+
+        return view('chirps.index', ['chirps' => $chirps]);
+    }
+
+    /**
      * Show the form for creating a new chirp.
      */
     public function create()
