@@ -23,6 +23,7 @@ class UpdateChirpRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'title' => 'required|string|max:100',
             'message' => 'required|string|max:255',
         ];
     }
@@ -30,7 +31,10 @@ class UpdateChirpRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'message.required' => 'Please write something to chirp!',
+            'title.required' => 'Please enter a title.',
+            'title.max' => 'Title cannot exceed 100 characters.',
+
+            'message.required' => 'Please write something to chirp.',
             'message.max' => 'Chirps must be 255 characters or less.',
         ];
     }

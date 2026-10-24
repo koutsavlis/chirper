@@ -49,7 +49,7 @@
                     @endcan
                 </div>
                 <a href="/chirps/{{ $chirp->id }}">
-                    <p class="mt-1">{{ $chirp->message }}</p>
+                    <p class="mt-1">{{ $chirp->title }}</p>
                 </a>
                 
             </div>
