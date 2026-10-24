@@ -6,6 +6,9 @@ A small micro-blogging app built with Laravel 13. Users can sign up, post short 
 
 The project started from the official [Laravel Learn bootcamp](https://laravel.com/learn/getting-started-with-laravel). I then extended it with my own features, fixed bugs and added a full test suite and CI.
 
+**Live demo:** https://chirper-production-wroxuh.laravel.cloud
+(sample login: `alice@example.com` / `password`)
+
 ![Public feed](docs/screenshots/feed.png)
 
 ## What I added beyond the tutorial
