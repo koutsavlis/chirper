@@ -42,12 +42,10 @@ class ChirpController extends Controller
     }
 
     /**
-     * Display the specified chirp.
+     * Display the specified chirp. Chirps are public.
      */
     public function show(Chirp $chirp)
     {
-        $this->authorize('view', $chirp);
-
         return view('chirps.show', compact('chirp'));
     }
 

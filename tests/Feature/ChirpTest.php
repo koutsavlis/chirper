@@ -173,11 +173,35 @@ test('a user cannot delete someone else\'s chirp', function () {
 
 // View
 
-test('a user cannot view someone else\'s chirp', function () {
-    $chirp = Chirp::factory()->create();
-    $intruder = User::factory()->create();
+test('guests can view a chirp', function () {
+    $chirp = Chirp::factory()->create([
+        'title' => 'Public title',
+        'message' => 'Public message',
+    ]);
 
-    $this->actingAs($intruder)
+    $this->get(route('chirps.show', $chirp))
+        ->assertOk()
+        ->assertSee('Public title')
+        ->assertSee('Public message');
+});
+
+test('only the author sees the edit button', function () {
+    $chirp = Chirp::factory()->create();
+    $otherUser = User::factory()->create();
+
+    $this->actingAs($chirp->user)
         ->get(route('chirps.show', $chirp))
-        ->assertForbidden();
+        ->assertSee('Edit Chirp');
+
+    $this->actingAs($otherUser)
+        ->get(route('chirps.show', $chirp))
+        ->assertDontSee('Edit Chirp');
+});
+
+test('the create page is not caught by the chirp show route', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->get(route('chirps.create'))
+        ->assertOk();
 });

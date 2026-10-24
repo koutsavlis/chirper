@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Route;
 
 // Public routes
 Route::get('/chirps', [ChirpController::class, 'index'])->name('chirps.index');
+Route::get('/chirps/{chirp}', [ChirpController::class, 'show'])
+    ->whereNumber('chirp')
+    ->name('chirps.show');
 
 // Guest routes
 Route::middleware('guest')->group(function () {
@@ -25,7 +28,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
-    Route::resource('chirps', ChirpController::class)->except(['index']);
+    Route::resource('chirps', ChirpController::class)->except(['index', 'show']);
 
     Route::post('/logout', Logout::class)->name('logout');
 });

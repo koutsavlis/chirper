@@ -11,8 +11,8 @@
             <span class="text-base-content/60">·</span>
             <span class="text-sm text-base-content/60">{{ $chirp->created_at->diffForHumans() }}</span>
             @if ($chirp->updated_at->gt($chirp->created_at->addSeconds(5)))
-            <span class="text-base-content/60">·</span>
-            <span class="text-sm text-base-content/60 italic">edited</span>
+                <span class="text-base-content/60">·</span>
+                <span class="text-sm text-base-content/60 italic">edited</span>
             @endif
         </div>
 
@@ -23,12 +23,15 @@
                 </p>
 
                 <div class="card-actions justify-between mt-4">
-                    <a href="/" class="btn btn-ghost btn-sm">
-                        Return Back
+                    <a href="{{ route('chirps.index') }}" class="btn btn-ghost btn-sm">
+                        Back to feed
                     </a>
-                    <a href="/chirps/{{ $chirp->id }}/edit" class="btn btn-primary btn-sm">
-                        Edit Chirp
-                    </a>
+
+                    @can('update', $chirp)
+                        <a href="{{ route('chirps.edit', $chirp) }}" class="btn btn-primary btn-sm">
+                            Edit Chirp
+                        </a>
+                    @endcan
                 </div>
             </div>
         </div>
