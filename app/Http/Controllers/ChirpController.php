@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreChirpRequest;
-use App\Http\Requests\UpdateChirpRequest;
+use App\Http\Requests\ChirpRequest;
 use App\Models\Chirp;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -36,7 +35,7 @@ class ChirpController extends Controller
     /**
      * Store a newly created chirp.
      */
-    public function store(StoreChirpRequest $request)
+    public function store(ChirpRequest $request)
     {
         auth()->user()->chirps()->create($request->validated());
 
@@ -66,7 +65,7 @@ class ChirpController extends Controller
     /**
      * Update the specified chirp.
      */
-    public function update(UpdateChirpRequest $request, Chirp $chirp)
+    public function update(ChirpRequest $request, Chirp $chirp)
     {
         $this->authorize('update', $chirp);
 

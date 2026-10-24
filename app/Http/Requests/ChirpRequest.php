@@ -5,10 +5,10 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreChirpRequest extends FormRequest
+class ChirpRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Authorization is handled by ChirpPolicy in the controller.
      */
     public function authorize(): bool
     {
@@ -16,7 +16,7 @@ class StoreChirpRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Shared validation rules for creating and updating chirps.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
